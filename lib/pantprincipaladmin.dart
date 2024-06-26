@@ -122,6 +122,46 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   elevation: 5,
                 ),
+                                child: Ink(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/opa.png'), // Ruta de la primera imagen
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Container(
+                    width: 300, // Ancho del botón
+                    height: 150, // Alto del botón
+                    child: Center(
+                      child: Text(
+                        'Estudiantes Asistidos',
+                        style: TextStyle(
+                          height: -3,
+                          fontSize: 20,
+                          color: isDarkMode ? Colors.black : Colors.white,
+                          // Color del texto en modo oscuro
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 100),
+              ElevatedButton(
+                onPressed: () {
+                  // Agregar lógica para justificación de asistencia tardía aquí
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  backgroundColor: isDarkMode
+                      ? Color.fromARGB(255, 5, 99, 71)
+                      : Colors.grey[300],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: 5,
+                ),
                 child: Ink(
                   decoration: BoxDecoration(
                     image: DecorationImage(
