@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(pantallaPrincipalAdmin());
+  runApp(registrApptabla());
 }
 
-class pantallaPrincipalAdmin extends StatelessWidget {
+class registrApptabla extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

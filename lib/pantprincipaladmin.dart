@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/tabla_alumno.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'tablaestudian.dart';
 
@@ -155,6 +156,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ElevatedButton(
                 onPressed: () {
                   // Agregar lógica para justificación de asistencia tardía aquí
+                    Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => registrApptabla()),
+                    );
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.zero,
