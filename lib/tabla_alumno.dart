@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'pantprincipaladmin.dart'; // Importar el archivo de la pantalla de destino
 
 void main() {
   runApp(registrApptabla());
@@ -49,8 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _loadUsers() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // Simulating loading users from storage or an API
+    // Simulando la carga de usuarios desde el almacenamiento o una API
     setState(() {
       users = [
         {'nie': '123456', 'nombre': 'Juan Pérez', 'genero': 'M', 'bachillerato': 'Ciencias', 'fecha': '2024-07-01', 'hora': '10:00 AM', 'estado': true},
@@ -88,9 +88,16 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => pantallaPrincipalAdmin()),
+      );
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override
