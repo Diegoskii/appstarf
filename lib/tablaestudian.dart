@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'pantprincipaladmin.dart'; // Asegúrate de que este archivo existe y está en la ruta correcta
 
 void main() {
   runApp(RegistroApp());
@@ -55,6 +56,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (index == 0) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => pantallaPrincipalAdmin()),
+        );
+      }
     });
   }
 
