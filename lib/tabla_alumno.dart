@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'pantprincipaladmin.dart'; // Importar el archivo de la pantalla de destino
+import 'retroceder_pagPrincipal.dart'; // Importar la función de cerrar sesión
 
 void main() {
   runApp(registrApptabla());
@@ -140,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Cerrar sesión'),
                 onTap: () {
-                  // Agregar lógica para cerrar sesión aquí
+                  cerrarSesion(context);
                 },
               ),
               ListTile(
@@ -238,10 +239,6 @@ class _MyHomePageState extends State<MyHomePage> {
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: 'Perfil',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.arrow_forward),
-              label: 'Siguiente',
             ),
           ],
           currentIndex: _selectedIndex,

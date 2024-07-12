@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myapp/tabla_alumno.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'tablaestudian.dart';
+import 'retroceder_pagPrincipal.dart';
+
 
 class pantallaPrincipalAdmin extends StatelessWidget {
   @override
@@ -92,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Cerrar sesión'),
                 onTap: () {
+                  cerrarSesion(context);
                   // Agregar lógica para cerrar sesión aquí
                 },
               ),
@@ -212,10 +215,6 @@ class _MyHomePageState extends State<MyHomePage> {
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: 'Perfil',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.arrow_forward),
-              label: 'Siguiente',
             ),
           ],
           currentIndex: _selectedIndex,
