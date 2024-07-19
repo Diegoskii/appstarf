@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'pantprincipaladmin.dart';
 
 void main() {
   runApp(RegistroApp());
@@ -13,6 +14,9 @@ class RegistroApp extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       home: MyHomePage(),
+      routes: {
+        '/pantallaPrincipalAdmin': (context) => pantallaPrincipalAdmin(),
+      },
     );
   }
 }
@@ -50,12 +54,17 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  int _selectedIndex = 0;
+  int _selectedIndex = 1; // Por defecto en el segundo ítem (Home)
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (index == 0) {
+      // Llamar a la función de navegación
+      navigateToPantallaPrincipalAdmin(context);
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override
@@ -170,4 +179,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+// Función de navegación definida fuera de MyHomePage
+void navigateToPantallaPrincipalAdmin(BuildContext context) {
+  Navigator.pushNamed(context, '/pantallaPrincipalAdmin');
 }
