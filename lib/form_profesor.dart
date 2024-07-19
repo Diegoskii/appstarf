@@ -1,9 +1,12 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 class FormProfesorApp extends StatelessWidget {
+  const FormProfesorApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,23 +14,23 @@ class FormProfesorApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         appBarTheme: AppBarTheme(
-          backgroundColor: Color.fromRGBO(0, 0, 0, 1),
+          backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
           toolbarTextStyle: Theme.of(context)
               .textTheme
               .copyWith(
-                titleLarge: TextStyle(color: Colors.white, fontSize: 24),
+                titleLarge: const TextStyle(color: Colors.white, fontSize: 24),
               )
               .bodyMedium,
           titleTextStyle: Theme.of(context)
               .textTheme
               .copyWith(
-                titleLarge: TextStyle(color: Colors.white, fontSize: 28),
+                titleLarge: const TextStyle(color: Colors.white, fontSize: 28),
               )
               .titleLarge,
         ),
         inputDecorationTheme: InputDecorationTheme(
-          labelStyle: TextStyle(color: Color.fromARGB(255, 0, 170, 255)),
-          focusedBorder: OutlineInputBorder(
+          labelStyle: const TextStyle(color: Color.fromARGB(255, 0, 170, 255)),
+          focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.blue),
           ),
           enabledBorder: OutlineInputBorder(
@@ -37,35 +40,38 @@ class FormProfesorApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.grey[200],
       ),
       darkTheme: ThemeData.dark(),
-      home: LoginPage(),
+      home: const LoginPage(),
     );
   }
 }
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _nombreController = TextEditingController();
-  final TextEditingController _correoController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _obscureText = true;
   String _errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inicio de sesión'),
+        title: const Text('Inicio de sesión'),
       ),
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Profesor',
                   style: TextStyle(
                     color: Color.fromARGB(255, 0, 170, 255),
@@ -73,40 +79,54 @@ class _LoginPageState extends State<LoginPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Container(
                   width: 100,
                   height: 100,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.grey,
                     shape: BoxShape.circle,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextField(
                   controller: _nombreController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Nombre',
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextField(
-                  controller: _correoController,
+                  controller: _passwordController,
+                  obscureText: _obscureText,
                   decoration: InputDecoration(
-                    labelText: 'Correo Electrónico',
-                    border: OutlineInputBorder(),
+                    labelText: 'Contraseña',
+                    border: const OutlineInputBorder(),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(_obscureText
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                      onPressed: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                    ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _login,
-                  child: Text('Iniciar sesión'),
+                  child: const Text('Iniciar sesión'),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   _errorMessage,
-                  style: TextStyle(color: Colors.red),
+                  style: const TextStyle(color: Colors.red),
                 ),
               ],
             ),
@@ -117,46 +137,51 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() async {
+    // Validar los datos ingresados
     String nombre = _nombreController.text.trim();
-    String correo = _correoController.text.trim();
+    String password = _passwordController.text.trim();
 
-    var url = Uri.parse('http://127.0.0.1:5000/login'); // Asegúrate de usar la URL correcta
+    // Enviar datos al servidor Flask
     var response = await http.post(
-      url,
+      Uri.parse('http://127.0.0.1:5000/login/datos_prof'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'nombre': nombre, 'correo': correo}),
+      body: json.encode({'nombre': nombre, 'contraseña': password}),
     );
 
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body);
-      if (jsonResponse['success']) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-      } else {
-        setState(() {
-          _errorMessage = jsonResponse['message'];
-        });
-      }
+    var responseData = json.decode(response.body);
+
+    if (responseData['success']) {
+      setState(() {
+        _errorMessage = ''; // Limpiar el mensaje de error
+      });
+      // Navegar a la pantalla de inicio
+      Navigator.push(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
     } else {
       setState(() {
-        _errorMessage = 'Error en el servidor';
+        _errorMessage = responseData['message']; // Mostrar mensaje de error
+        _nombreController.clear(); // Limpiar campo de nombre
+        _passwordController.clear(); // Limpiar campo de contraseña
       });
     }
   }
 }
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Página Principal'),
+        title: const Text('Página de Inicio'),
       ),
-      body: Center(
+      body: const Center(
         child: Text(
-          'Bienvenido a la página principal',
+          'Bienvenido a la página de inicio!',
           style: TextStyle(fontSize: 24),
         ),
       ),
