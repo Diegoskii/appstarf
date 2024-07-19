@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
     String nombre = _nombreController.text.trim();
     String correo = _correoController.text.trim();
 
-    var url = Uri.parse('http://192.168.5.244:5000/login'); // Asegúrate de usar la URL correcta
+    var url = Uri.parse('http://192.168.5.209:5000/login'); // Asegúrate de usar la URL correcta
     var response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
